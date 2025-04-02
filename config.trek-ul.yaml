@@ -1,0 +1,44 @@
+token:
+  loginExpirationInSeconds: 3600
+  guest2FAExpirationInSeconds: 300
+
+reservation:
+  expirationInSeconds: 600
+  defaultCost: 75
+
+trip:
+  maximumSeats: 50
+  defaultCost: 55
+  timeInSecondsBeforeTripToBlock: 1814400 # 3 weeks
+  notificationThresholdInSeconds: 604800 # 1 week
+  defaultStartDate:
+    year: 2024
+    month: 12
+    day: 29
+
+transport:
+  defaultOrganizedBusMaximumSeats : 50
+  defaultOrganizedBusCost: 25
+
+group:
+  maximumGroupSize : 13
+
+scheduler:
+  poolSize: 1
+  shutdownTimeoutInSeconds: 60
+  tasks:
+    - name: RESERVATION_EXPIRATION
+      intervalInSeconds: 60
+      delayInSeconds: 0
+    - name: BLOCKING_TRIPS_BEFORE_DATE
+      intervalInSeconds: 14400 # 4 hours
+      delayInSeconds: 120
+    - name: NOTIFY_UPCOMING_TRIPS
+      intervalInSeconds: 300
+      delayInSeconds: 300
+
+smtp:
+  host: smtp.mailgun.org
+  port: 587
+  username: postmaster@your-domain.example
+  password: ***REMOVED***

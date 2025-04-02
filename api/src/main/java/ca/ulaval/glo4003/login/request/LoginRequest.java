@@ -1,0 +1,6 @@
+package ca.ulaval.glo4003.login.request;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record LoginRequest(
+    @JsonProperty(required = true) String email, @JsonProperty(required = true) String password) {}

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress checks="IllegalCatch" files="TrekUlMain.java"/>
+
+    <!-- Application exceptions -->
+    <suppress files="[\\/]src[\\/]main[\\/].*" id="TypeNameTestsFolder" />
+    <suppress files="[\\/]src[\\/]main[\\/].*" id="MethodNameTestsFolderNonPublicMethods" />
+    <suppress files="[\\/]src[\\/]main[\\/].*" id="MethodNameTestsFolderPublicMethods" />
+
+    <!-- Tests exceptions -->
+    <suppress files="[\\/]src[\\/]test[\\/].*" id="TypeNameApplication" />
+    <suppress files="[\\/]src[\\/]test[\\/].*" id="MethodNameApplication" />
+    <suppress files="[\\/]src[\\/]test[\\/].*" checks="MissingJavadocType" />
+    <suppress files="[\\/]src[\\/]test[\\/].*" checks="MissingJavadocMethod" />
+</suppressions>

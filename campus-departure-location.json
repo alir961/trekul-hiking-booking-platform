@@ -1,0 +1,18 @@
+[
+    {
+        "location": "VACHON",
+        "departure_time": "19:00"
+    },
+    {
+        "location": "PEPS",
+        "departure_time": "19:15"
+    },
+    {
+        "location": "DESJARDINS",
+        "departure_time": "18:30"
+    },
+    {
+        "location": "FABRIQUE",
+        "departure_time": "17:30"
+    }
+]

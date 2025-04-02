@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1, 
+        "key": "CHARLEVOIX",
+        "fr_code": "Charlevoix",
+        "en_code": "Charlevoix"
+    },
+    {
+        "id": 2,
+        "key": "GASPESIE",
+        "fr_code": "Gaspésie",
+        "en_code": "Gaspésie"
+    },
+    {
+        "id": 3,
+        "key": "SAGLAC",
+        "en_code": "Saguenay-Lac-Saint-Jean",
+        "fr_code": "Saguenay-Lac-Saint-Jean"
+    }
+]

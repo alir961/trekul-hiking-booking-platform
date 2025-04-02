@@ -1,0 +1,5475 @@
+{
+	"info": {
+		"_postman_id": "8fd2ec50-43bc-4ab1-9829-6357058a870e",
+		"name": "TrekUl-eq6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14467674"
+	},
+	"item": [
+		{
+			"name": "Manual fuller",
+			"item": [
+				{
+					"name": "Full trip",
+					"item": [
+						{
+							"name": "Reservation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"pm.collectionVariables.set(\"reservationInvoice\", responseJson.invoice.invoiceID);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"transportType\": \"none\",\r\n    \"guests\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{trekulURL}}/trips/{{fullTrip}}:reserve",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips",
+										"{{fullTrip}}:reserve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Checkout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 86.24\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{trekulURL}}/invoices/{{reservationInvoice}}:pay",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"invoices",
+										"{{reservationInvoice}}:pay"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Full Organized bus",
+					"item": [
+						{
+							"name": "Reservation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"pm.collectionVariables.set(\"reservationInvoice\", responseJson.invoice.invoiceID);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"transportType\": \"organized_bus\",\r\n    \"stop\": \"VACHON\",\r\n    \"guests\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{trekulURL}}/trips/{{fullOrganizedBus}}:reserve",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips",
+										"{{fullOrganizedBus}}:reserve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Checkout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 86.24\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{trekulURL}}/invoices/{{reservationInvoice}}:pay",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"invoices",
+										"{{reservationInvoice}}:pay"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Verifications",
+					"item": [
+						{
+							"name": "Only Full trip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"const fullTrip = pm.collectionVariables.get(\"fullTrip\");\r",
+											"\r",
+											"pm.test(\"givenTripIsFull_whenSearchingOnlyFullTrips_thenContainFullTrip\", () => {\r",
+											"    const containFullTrip = (trip) => trip.id === fullTrip;\r",
+											"    pm.expect(responseJson.some(containFullTrip)).to.be.true;\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55&onlyFullTrips=true",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{startDate}}"
+										},
+										{
+											"key": "endDate",
+											"value": "{{endDate}}"
+										},
+										{
+											"key": "priceLimit",
+											"value": "55"
+										},
+										{
+											"key": "onlyFullTrips",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Exclude Full trip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"const fullTrip = pm.collectionVariables.get(\"fullTrip\");\r",
+											"\r",
+											"pm.test(\"givenTripIsFull_whenSearchingAvailableTrips_thenDoesNotContainFullTrip\", () => {\r",
+											"    const containFullTrip = (trip) => trip.id === fullTrip;\r",
+											"    pm.expect(responseJson.some(containFullTrip)).to.be.false;\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{startDate}}"
+										},
+										{
+											"key": "endDate",
+											"value": "{{endDate}}"
+										},
+										{
+											"key": "priceLimit",
+											"value": "55"
+										},
+										{
+											"key": "onlyFullTrips",
+											"value": "true",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Organize bus is full",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"pm.test(\"givenOrganizedBusFullyReserved_whenGettingOrganizedBusDetails_thenAvailableSeatsIsZero\", () => {\r",
+											"    pm.expect(responseJson.availableSeats).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{trekulURL}}/trips/{{fullOrganizedBus}}/transports/organized_bus",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips",
+										"{{fullOrganizedBus}}",
+										"transports",
+										"organized_bus"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reserving full trip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"givenTripIsFullReserved_whenCreatingReservation_thenStatusCodeIs400\", () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"givenTripIsFullReserved_whenCreatingReservation_thenErrorMessageIsTRIP_IS_FULL\", () => {\r",
+											"    pm.expect(responseJson.message).to.eql(\"TRIP_IS_FULL\");\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"transportType\": \"none\",\r\n    \"guests\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{trekulURL}}/trips/{{fullTrip}}:reserve",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips",
+										"{{fullTrip}}:reserve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reserving full organized bus",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"givenOrganizeBusIsFullReserved_whenCreatingReservation_thenStatusCodeIs400\", () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"givenOrganizedBusIsFullReserved_whenCreatingReservation_thenErrorMessageIsFULLY BOOKED\", () => {\r",
+											"    pm.expect(responseJson.message).to.eql(\"FULLY BOOKED\");\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"transportType\": \"organized_bus\",\r\n    \"stop\": \"VACHON\",\r\n    \"guests\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{trekulURL}}/trips/{{fullOrganizedBus}}:reserve",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips",
+										"{{fullOrganizedBus}}:reserve"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Trip selector",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"fullTrip\", pm.response.json()[5].id);\r",
+									"pm.collectionVariables.set(\"fullOrganizedBus\", pm.response.json()[6].id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55",
+							"host": [
+								"{{trekulURL}}"
+							],
+							"path": [
+								"trips"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "priceLimit",
+									"value": "55"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Phase 1",
+			"item": [
+				{
+					"name": "Story 1",
+					"item": [
+						{
+							"name": "Register",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Register invalid password",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const passwords = pm.collectionVariables.get(\"wrong_passwords\");\r",
+															"\r",
+															"pm.test(\"givenInvalidPassword_whenRegistering_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalidPassword_whenRegistering_thenErrorMessageIsUSER_CREATION_FAILED\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"USER_CREATION_FAILED\");\r",
+															"})\r",
+															"\r",
+															"if (passwords && passwords.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let passwords = pm.collectionVariables.get(\"wrong_passwords\");\r",
+															"\r",
+															"if(!passwords || passwords.length == 0) {\r",
+															"    passwords = [\"123456789!a\", \"123456789aA\", \"aaaaaaaaa!A\", \"1234567!A\"];\r",
+															"}\r",
+															"\r",
+															"let currentPassword = passwords.shift();\r",
+															"pm.collectionVariables.set(\"wrong_password\", currentPassword);\r",
+															"pm.collectionVariables.set(\"wrong_passwords\", passwords);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"firstname\": \"TrekUL\",\r\n    \"lastname\": \"Postman\",\r\n    \"birthDay\": \"1998-10-09\",\r\n    \"gender\": \"GENDER_MAN\",\r\n    \"idul\": \"story1_invalid\",\r\n    \"email\": \"story1_invalid@ulaval.ca\",\r\n    \"password\": \"{{wrong_password}}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Register invalid age",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const ages = pm.collectionVariables.get(\"wrong_ages\");\r",
+															"\r",
+															"pm.test(\"givenInvalidAge_whenRegistering_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalidAge_whenRegistering_thenErrorMessageIsCREATION_FAILED\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"CREATION_FAILED\");\r",
+															"})\r",
+															"\r",
+															"if (ages && ages.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let ages = pm.collectionVariables.get(\"wrong_ages\");\r",
+															"var dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };\r",
+															"\r",
+															"function ofAge(age) {\r",
+															"    let date = new Date();\r",
+															"    date.setFullYear(date.getFullYear() - age);\r",
+															"    return date.toLocaleDateString(\"en-CA\", dateOptions);\r",
+															"}\r",
+															"\r",
+															"if(!ages || ages.length == 0) {\r",
+															"    ages = [ofAge(17), ofAge(81)];\r",
+															"}\r",
+															"\r",
+															"let currentAge = ages.shift();\r",
+															"pm.variables.set(\"wrong_age\", currentAge);\r",
+															"pm.collectionVariables.set(\"wrong_ages\", ages);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"firstname\": \"TrekUL\",\r\n    \"lastname\": \"Postman\",\r\n    \"birthDay\": \"{{wrong_age}}\",\r\n    \"gender\": \"GENDER_MAN\",\r\n    \"idul\": \"story1_invalid\",\r\n    \"email\": \"story1_invalid@ulaval.ca\",\r\n    \"password\": \"123456789!A\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Register missing elements",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"\r",
+															"let requiredElements = {\r",
+															"    \"firstname\": \"TrekUL\",\r",
+															"    \"lastname\": \"Postman\",\r",
+															"    \"birthDay\": \"1980-12-12\",\r",
+															"    \"gender\": \"GENDER_MAN\",\r",
+															"    \"idul\": \"story1_invalid\",\r",
+															"    \"email\": \"story1_invalid@ulaval.ca\",\r",
+															"    \"password\": \"123456789!A\"\r",
+															"}\r",
+															"\r",
+															"let elements = pm.collectionVariables.get(\"registrer_elements\");\r",
+															"\r",
+															"if(!elements || elements.length == 0) {\r",
+															"    elements = Object.keys(requiredElements);\r",
+															"}\r",
+															"\r",
+															"const currentElement = elements.shift();\r",
+															"pm.variables.set(\"missing_element\", currentElement);\r",
+															"pm.collectionVariables.set(\"registrer_elements\", elements);\r",
+															"\r",
+															"delete requiredElements[currentElement];\r",
+															"\r",
+															"pm.request.body.raw = JSON.stringify(requiredElements);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const missingElement = pm.variables.get(\"missing_element\");\r",
+															"const elements = pm.collectionVariables.get(\"registrer_elements\");\r",
+															"\r",
+															"pm.test(`givenMissingElement:${missingElement}_whenRegistering_thenStatusCodeIs400`, () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"if (elements && elements.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Register",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"whenRegistering_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const age = parseInt(pm.collectionVariables.get(\"user_age\"));\r",
+													"const dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };\r",
+													"\r",
+													"function ofAge(age) {\r",
+													"    let date = new Date();\r",
+													"    date.setFullYear(date.getFullYear() - age);\r",
+													"    return date.toLocaleDateString(\"en-CA\", dateOptions);\r",
+													"}\r",
+													"\r",
+													"pm.variables.set(\"birthday\", ofAge(age));"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"firstname\": \"TrekUL\",\r\n    \"lastname\": \"Postman\",\r\n    \"birthDay\": \"{{birthday}}\",\r\n    \"gender\": \"GENDER_MAN\",\r\n    \"idul\": \"{{ownerUserID}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Login",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Login with wrong pass",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenWrongPassword_whenLoginIn_thenStatusCodeIs401\", () =>  {\r",
+															"    pm.response.to.have.status(401);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenWrongPassword_whenLoginIn_thenErrorMessageIsUSER_WRONG_CREDENTIAL\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"USER_WRONG_CREDENTIAL\");\r",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "6954a5a4-4a98-4914-9303-0185ee283516",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \" \"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/login",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"login"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Login new user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const token = pm.response.json().token;\r",
+													"pm.collectionVariables.set(\"userToken\", token);\r",
+													"\r",
+													"pm.test(\"whenLoginIn_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "6954a5a4-4a98-4914-9303-0185ee283516",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/login",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login as an Organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const token = pm.response.json().token;\r",
+													"pm.collectionVariables.set(\"organizerToken\", token);\r",
+													"\r",
+													"pm.test(\"givenHardcodedOrganizerAccount_whenLoginIn_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "6954a5a4-4a98-4914-9303-0185ee283516",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"paul@email.com\",\r\n    \"password\": \"123456789!A\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/login",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Profile",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Profile as: missing token",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{trekulURL}}/users/{{ownerUserID}}",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users",
+														"{{ownerUserID}}"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Profile",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"whenGettingProfile_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenGettingProfile_thenProfileIsOfUser\", () =>  {\r",
+													"    const email = pm.collectionVariables.get(\"email\");\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson.email).to.eql(email);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenGettingProfile_thenAgeIsFromtBirthday\", () =>  {\r",
+													"    const age = parseInt(pm.collectionVariables.get(\"user_age\"));\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson.age).to.eql(age);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Story 2",
+					"item": [
+						{
+							"name": "Search",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Trip Search Missing startDate",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenMissingStartDate_whenSearchingTrips_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{trekulURL}}/trips?endDate={{endDate}}&priceLimit=55",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips"
+													],
+													"query": [
+														{
+															"key": "endDate",
+															"value": "{{endDate}}"
+														},
+														{
+															"key": "priceLimit",
+															"value": "55"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Trip Search Missing endDate",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenMissingEndDate_whenSearchingTrips_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{trekulURL}}/trips?priceLimit=55&startDate={{startDate}}",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips"
+													],
+													"query": [
+														{
+															"key": "priceLimit",
+															"value": "55"
+														},
+														{
+															"key": "startDate",
+															"value": "{{startDate}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Trip Search Missing priceLimit",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenMissingPriceLimit_whenSearchingTrips_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips"
+													],
+													"query": [
+														{
+															"key": "startDate",
+															"value": "{{startDate}}"
+														},
+														{
+															"key": "endDate",
+															"value": "{{endDate}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Trip Search Invalid region",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenInvalidRegion_whenSearchingTrips_thenStatusCodeIs500\", () =>  {\r",
+															"    pm.response.to.have.status(500);\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55&region=_not_valid",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips"
+													],
+													"query": [
+														{
+															"key": "startDate",
+															"value": "{{startDate}}"
+														},
+														{
+															"key": "endDate",
+															"value": "{{endDate}}"
+														},
+														{
+															"key": "priceLimit",
+															"value": "55"
+														},
+														{
+															"key": "region",
+															"value": "_not_valid"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Optional",
+									"item": [
+										{
+											"name": "Trip Search With Region",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const regions = pm.collectionVariables.get(\"regions\");\r",
+															"\r",
+															"pm.test(\"givenRegionGaspesie_whenSearchingTrips_thenStatusCodeIs200\", () =>  {\r",
+															"    pm.response.to.have.status(200);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenRegionGaspesie_whenSearchingTrips_thenListIsNotEmpty\", () =>  {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson).length.to.be.greaterThan(0);\r",
+															"});\r",
+															"\r",
+															"if (regions && regions.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let regions = pm.collectionVariables.get(\"regions\");\r",
+															"\r",
+															"if(!regions || regions.length == 0) {\r",
+															"    regions = [\"GASPESIE\", \"gaspesie\", \"gasPEsIe\"];\r",
+															"}\r",
+															"\r",
+															"let currentRegion = regions.shift();\r",
+															"pm.collectionVariables.set(\"region\", currentRegion);\r",
+															"pm.collectionVariables.set(\"regions\", regions);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55&region={{region}}",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips"
+													],
+													"query": [
+														{
+															"key": "startDate",
+															"value": "{{startDate}}"
+														},
+														{
+															"key": "endDate",
+															"value": "{{endDate}}"
+														},
+														{
+															"key": "priceLimit",
+															"value": "55"
+														},
+														{
+															"key": "region",
+															"value": "{{region}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Trip Search With Status Full",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const tripStatus = pm.collectionVariables.get(\"tripStatus\");\r",
+															"const currentStatus = pm.collectionVariables.get(\"currentTripStatus\");\r",
+															"\r",
+															"pm.test(`givenOptionalStatus'${currentStatus}'_whenSearchingTrips_thenStatusCodeIs200`, () =>  {\r",
+															"    pm.response.to.have.status(200);\r",
+															"});\r",
+															"\r",
+															"if (tripStatus && tripStatus.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let status = pm.collectionVariables.get(\"tripStatus\");\r",
+															"\r",
+															"if(!status || status.length == 0) {\r",
+															"    status = [\"FuLl\", \"BloCKed\"];\r",
+															"}\r",
+															"\r",
+															"let currentStatus = status.shift();\r",
+															"pm.collectionVariables.set(\"currentTripStatus\", currentStatus);\r",
+															"pm.collectionVariables.set(\"tripStatus\", status);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55&status={{currentTripStatus}}",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips"
+													],
+													"query": [
+														{
+															"key": "startDate",
+															"value": "{{startDate}}"
+														},
+														{
+															"key": "endDate",
+															"value": "{{endDate}}"
+														},
+														{
+															"key": "priceLimit",
+															"value": "55"
+														},
+														{
+															"key": "status",
+															"value": "{{currentTripStatus}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Trip Search",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"whenSearchingTrips_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenSearchingTrips_thenListIsNotEmpty\", () =>  {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson).length.to.be.greaterThan(0);\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"firstTrip\", pm.response.json()[0].id);\r",
+													"pm.collectionVariables.set(\"firstTripAvailability\", pm.response.json()[0].availableSeats);\r",
+													"pm.collectionVariables.set(\"firstTripPrice\", pm.response.json()[0].price);\r",
+													"\r",
+													"\r",
+													"pm.collectionVariables.set(\"tripForExceptions\", pm.response.json()[1].id);\r",
+													"pm.collectionVariables.set(\"busTrip\", pm.response.json()[2].id);\r",
+													"pm.collectionVariables.set(\"busTripPrice\", pm.response.json()[2].price);\r",
+													"pm.collectionVariables.set(\"selfTrip\", pm.response.json()[3].id);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "{{startDate}}"
+												},
+												{
+													"key": "endDate",
+													"value": "{{endDate}}"
+												},
+												{
+													"key": "priceLimit",
+													"value": "55"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Reservation",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Reservation with non existing trip",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenNonExistingTrip_whenCreatingReservation_thenStatusCodeIs404\", () =>  {\r",
+															"    pm.response.to.have.status(404);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenNonExistingTrip_whenCreatingReservation_thenErrorMessageIsTRIP_NOT_FOUND\", () =>  {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"TRIP_NOT_FOUND\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"transportType\": \"none\",\r\n    \"guests\": []\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{anyInvalidUUID}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{anyInvalidUUID}}:reserve"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Reservation as: missing token",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"transportType\": \"none\",\r\n    \"guests\": []\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{tripForExceptions}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{tripForExceptions}}:reserve"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Reservation missing elements",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let requiredElements = {\r",
+															"    \"transportType\": \"NONE\",\r",
+															"    \"guests\": []\r",
+															"}\r",
+															"\r",
+															"let elements = pm.collectionVariables.get(\"reservation_elements\");\r",
+															"\r",
+															"if(!elements || elements.length == 0) {\r",
+															"    elements = Object.keys(requiredElements);\r",
+															"}\r",
+															"\r",
+															"const currentElement = elements.shift();\r",
+															"pm.variables.set(\"missing_element\", currentElement);\r",
+															"pm.collectionVariables.set(\"reservation_elements\", elements);\r",
+															"\r",
+															"delete requiredElements[currentElement];\r",
+															"\r",
+															"pm.request.body.raw = JSON.stringify(requiredElements);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const missingElement = pm.variables.get(\"missing_element\");\r",
+															"const elements = pm.collectionVariables.get(\"reservation_elements\");\r",
+															"\r",
+															"pm.test(`givenMissingElement:${missingElement}_whenCreatingReservation_thenStatusCodeIs400`, () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"if (elements && elements.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{tripForExceptions}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{tripForExceptions}}:reserve"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Reservation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"whenCreatingReservation_thenStatusCodeIs201\", () =>  {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenCreatingReservation_thenInvoiceContainsReservationPrice\", () => {\r",
+													"    pm.expect(responseJson.invoice.items.RESERVATION).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.invoice.items.RESERVATION).to.eql(\"75.00\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenCreatingReservation_thenInvoiceContainsTripPrice\", () => {\r",
+													"    const firstTripPrice = pm.collectionVariables.get(\"firstTripPrice\");\r",
+													"    pm.expect(responseJson.invoice.items.TRIP).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.invoice.items.TRIP).to.eql(firstTripPrice);\r",
+													"    \r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"reservationInvoice\", responseJson.invoice.invoiceID);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"transportType\": \"none\",\r\n  \"guests\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:reserve",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:reserve"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Verifications",
+							"item": [
+								{
+									"name": "Trip updated",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"givenFirstTripReserved_whenSearchingTrips_thenFirstTripHasOneLessAvailability\", () =>  {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    const availableSeatsBefore = parseInt(pm.collectionVariables.get(\"firstTripAvailability\"));\r",
+													"    pm.expect(responseJson[0].availableSeats).length.to.eql(availableSeatsBefore - 1);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "{{startDate}}"
+												},
+												{
+													"key": "endDate",
+													"value": "{{endDate}}"
+												},
+												{
+													"key": "priceLimit",
+													"value": "55"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Reservation on same trip",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenTripAlreadyReserved_whenCreatingReservation_thenStatusCodeIs400\", () =>  {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenTripAlreadyReserved_whenCreatingReservation_thenErrorMessageIsTRIP_ALREADY_CONTAINS_TRAVELER\", () => {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson.message).to.eql(\"TRIP_ALREADY_CONTAINS_TRAVELER\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"transportType\": \"none\",\r\n  \"guests\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:reserve",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:reserve"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Story 3",
+					"item": [
+						{
+							"name": "Checkout",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Checkout invalid payments",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let payments = pm.collectionVariables.get(\"wrong_payments\");\r",
+															"let paymentsTypes = pm.collectionVariables.get(\"wrong_payments_types\");\r",
+															"\r",
+															"if(!payments || payments.length == 0) {\r",
+															"    payments = [0.0, -10, 1000, 75];\r",
+															"    paymentsTypes = [\"PAYMENT_NEGATIVE\", \"PAYMENT_NEGATIVE\", \"PAYMENT_TOO_HIGH\", \"PAYMENT_TOO_LOW\"];\r",
+															"}\r",
+															"\r",
+															"const currentPayment = payments.shift();\r",
+															"const currentPaymentType = paymentsTypes.shift();\r",
+															"pm.collectionVariables.set(\"wrong_payment\", currentPayment);\r",
+															"pm.collectionVariables.set(\"wrong_payments\", payments);\r",
+															"pm.collectionVariables.set(\"wrong_payment_type\", currentPaymentType);\r",
+															"pm.collectionVariables.set(\"wrong_payments_types\", paymentsTypes);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const payments = pm.collectionVariables.get(\"wrong_payments\");\r",
+															"\r",
+															"const paymentType = pm.collectionVariables.get(\"wrong_payment_type\");\r",
+															"\r",
+															"pm.test(\"givenInvalidPayment_whenCheckingOut_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalidPayment_whenCheckingOut_thenErrorMessageIsAPaymentErrorBasedOnItsType\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(paymentType);\r",
+															"});\r",
+															"\r",
+															"if (payments && payments.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": {{wrong_payment}}\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{reservationInvoice}}:pay",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users",
+														"{{ownerUserID}}",
+														"invoices",
+														"{{reservationInvoice}}:pay"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Checkout missing elements",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let requiredElements = {\r",
+															"    \"cardNumber\": \"1234\",\r",
+															"    \"expirationDate\": \"1225\",\r",
+															"    \"cardHolderName\": \"Louis\",\r",
+															"    \"ccv\": 124,\r",
+															"    \"payment\": 86.24\r",
+															"}\r",
+															"\r",
+															"let elements = pm.collectionVariables.get(\"checkout_elements\");\r",
+															"\r",
+															"if(!elements || elements.length == 0) {\r",
+															"    elements = Object.keys(requiredElements);\r",
+															"}\r",
+															"\r",
+															"const currentElement = elements.shift();\r",
+															"pm.variables.set(\"missing_element\", currentElement);\r",
+															"pm.collectionVariables.set(\"checkout_elements\", elements);\r",
+															"\r",
+															"delete requiredElements[currentElement];\r",
+															"\r",
+															"pm.request.body.raw = JSON.stringify(requiredElements);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const missingElement = pm.variables.get(\"missing_element\");\r",
+															"const elements = pm.collectionVariables.get(\"checkout_elements\");\r",
+															"\r",
+															"pm.test(`givenMissingElement:${missingElement}_whenCheckingOut_thenStatusCodeIs400`, () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"if (elements && elements.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{reservationInvoice}}:pay",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users",
+														"{{ownerUserID}}",
+														"invoices",
+														"{{reservationInvoice}}:pay"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Checkout invalid card",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenInvalidExpiration_whenCheckingOut_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalidExpiration_whenCheckingOut_thenErrorMessageIsCHECKOUT_FAILED\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"PAYMENT_CHECKOUT_FAILED\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1124\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 86.24\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{reservationInvoice}}:pay",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users",
+														"{{ownerUserID}}",
+														"invoices",
+														"{{reservationInvoice}}:pay"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Checkout as: missing token",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1125\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 86.24\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{reservationInvoice}}:pay",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users",
+														"{{ownerUserID}}",
+														"invoices",
+														"{{reservationInvoice}}:pay"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Checkout without reservation",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"\r",
+															"pm.test(\"givenNoReservation_whenCheckingOut_thenStatusCodeIs404\", () =>  {\r",
+															"    pm.response.to.have.status(404);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalidPayment_whenRegistering_thenErrorMessageIsRESERVATION_NOT_FOUND\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"RESERVATION_NOT_FOUND\");\r",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 86.24\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{anyInvalidUUID}}:pay",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users",
+														"{{ownerUserID}}",
+														"invoices",
+														"{{anyInvalidUUID}}:pay"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Reservation Checkout",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"whenCheckingOut_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenCheckingOut_thenInvoiceExists\", () => {\r",
+													"    pm.expect(responseJson.invoice).to.not.be.undefined;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenCheckingOut_thenTotalPaidIsThePaymentMade\", () => {\r",
+													"    const paymentMade = pm.collectionVariables.get(\"checkout_payment\");\r",
+													"    pm.expect(responseJson.totalPaid).to.eql(paymentMade);\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"firstInvoice\", responseJson.invoice.invoiceID);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": {{checkout_payment}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{reservationInvoice}}:pay",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{reservationInvoice}}:pay"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Confirmed trip",
+							"item": [
+								{
+									"name": "Trips confirmed",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"const firstTrip = responseJson[0];\r",
+													"\r",
+													"pm.test(\"whenGettingConfirmedTrips_thenStatusCodeIs200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenOneConfirmedTrip_whenGettingConfirmedTrips_thenListIsNotEmpty\", () => {\r",
+													"    pm.expect(firstTrip).to.not.be.undefined;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenOneConfirmedTrip_whenGettingConfirmedTrips_thenTripHasConfirmedStatus\", () =>  {\r",
+													"    pm.expect(firstTrip.reservation.status).to.eql(\"CONFIRMED\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenOneConfirmedTrip_whenGettingConfirmedTrips_thenTripHasSomeDetails\", () =>  {\r",
+													"    pm.expect(firstTrip.hiking).to.not.be.undefined;\r",
+													"    pm.expect(firstTrip.startDate).to.not.be.undefined;\r",
+													"    pm.expect(firstTrip.invoice).to.not.be.undefined;\r",
+													"    pm.expect(firstTrip.reservation).to.not.be.undefined;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenOneConfirmedTrip_whenGettingConfirmedTrips_thenTripHasSameIDAsReserved\", () =>  {\r",
+													"    const reservedTripID = pm.collectionVariables.get(\"firstTrip\");\r",
+													"    pm.expect(firstTrip.tripId).to.eql(reservedTripID);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/profile/trips?status=CONFIRMED",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"profile",
+												"trips"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "CONFIRMED"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Verifications",
+							"item": [
+								{
+									"name": "Invoices",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"const firstInvoice = pm.collectionVariables.get(\"firstInvoice\");\r",
+													"\r",
+													"pm.test(\"whenGettingInvoices_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenOneCheckout_whenGettingInvoices_thenListContainsNewInvoice\", () =>  {\r",
+													"    pm.expect(responseJson).length.to.be.greaterThan(0);\r",
+													"    const containInvoice = (invoice) => invoice.invoiceID === firstInvoice;\r",
+													"    pm.expect(responseJson.some(containInvoice)).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invoice details",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"const paymentMade = pm.collectionVariables.get(\"checkout_payment\");\r",
+													"\r",
+													"pm.test(\"givenInvoiceExists_whenGettingInvoiceDetails_thenStatusCodeIs200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvoiceExists_whenGettingInvoiceDetails_thenInvoiceContainsPaymentOfCheckout\", () => {\r",
+													"    const containPayment = (payment) => payment.paid === paymentMade;\r",
+													"    pm.expect(responseJson.payments.some(containPayment)).to.be.true;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvoiceExists_whenGettingInvoiceDetails_thenInvoiceContainsTaxes\", () => {\r",
+													"    pm.expect(responseJson.taxes).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.taxes.TPS).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.taxes.TVQ).to.not.be.undefined;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{firstInvoice}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{firstInvoice}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Story 4",
+					"item": [
+						{
+							"name": "Organized bus",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Reservation missing stop",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const responseJson = pm.response.json();\r",
+															"\r",
+															"pm.test(\"givenOgranizedBusWithMissingStop_whenCreatingReservation_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenOgranizedBusWithMissingStop_whenCreatingReservation_thenErrorMessageIsINVALID_PARAMETERS\", () => {\r",
+															"    pm.expect(responseJson.message).to.eql(\"INVALID_PARAMETERS\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"transportType\": \"oRganizeD_bUs\",\r\n    \"guests\": []\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{tripForExceptions}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{tripForExceptions}}:reserve"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Reservation invalid stop",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const responseJson = pm.response.json();\r",
+															"\r",
+															"pm.test(\"givenOgranizedBusWithInvalidStop_whenCreatingReservation_thenStatusCodeIs404\", () =>  {\r",
+															"    pm.response.to.have.status(404);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenOgranizedBusWithInvalidStop_whenCreatingReservation_thenErrorMessageIsSTOP_DOES_NOT_EXIST\", () => {\r",
+															"    pm.expect(responseJson.message).to.eql(\"STOP_DOES_NOT_EXIST\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"transportType\": \"oRganizeD_bUs\",\r\n    \"stop\": \"not_vachon\",\r\n    \"guests\": []\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{tripForExceptions}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{tripForExceptions}}:reserve"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Get organized_bus",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"organized_bus_cost\", responseJson[0].cost);\r",
+													"pm.collectionVariables.set(\"organized_bus_seats\", responseJson[0].availableSeats);\r",
+													"\r",
+													"pm.test(\"whenGettingOrganizedBusDetails_thenStatusCodeIs200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenGettingOrganizedBusDetails_thenAllFourStopsAreShown\", () => {\r",
+													"    pm.expect(responseJson[0].stops.length).to.eql(4);\r",
+													"});\r",
+													"\r",
+													"const locations = [\"VACHON\", \"PEPS\", \"DESJARDINS\", \"FABRIQUE\"]\r",
+													"for (const loc of locations) {\r",
+													"    const containsLocation = (stop) => stop.location === loc;\r",
+													"    pm.test(`whenGettingOrganizedBusDetails_thenStop${loc}ShouldExist`, () => {\r",
+													"        pm.expect(responseJson[0].stops.some(containsLocation)).to.be.true;\r",
+													"    })\r",
+													"}"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{busTrip}}/transports/organized_bus",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{busTrip}}",
+												"transports",
+												"organized_bus"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Reservation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"const busCost = pm.collectionVariables.get(\"organized_bus_cost\");\r",
+													"pm.collectionVariables.set(\"reservationInvoice\", responseJson.invoice.invoiceID);\r",
+													"\r",
+													"pm.test(\"givenValidOrganizedBus_whenCreatingReservation_thenStatusCodeIs201\", () =>  {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenValidOrganizedBus_whenCreatingReservation_thenTransportCostIsAddedToInvoice\", () => {\r",
+													"    pm.expect(responseJson.invoice.items.TRANSPORT).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.invoice.items.TRANSPORT).to.eql(busCost);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"transportType\": \"organiZED_bUs\",\r\n    \"stop\": \"VAChon\",\r\n    \"guests\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{busTrip}}:reserve",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{busTrip}}:reserve"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Verify organized_bus updated",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"const previousSeats = parseInt(pm.collectionVariables.get(\"organized_bus_seats\"));\r",
+													"\r",
+													"pm.test(\"givenOrganizedBusHasBeenReserved_whenGettingOrganizedBusDetails_thenAvailableSeatsWasReduced\", () => {\r",
+													"    pm.expect(responseJson[0].availableSeats).to.eql(previousSeats - 1);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{busTrip}}/transports/organized_bus",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{busTrip}}",
+												"transports",
+												"organized_bus"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Reservation Checkout",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 86.24\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{reservationInvoice}}:pay",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{reservationInvoice}}:pay"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Carpool",
+							"item": [
+								{
+									"name": "Reservation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenCarpoolForTransport_whenCreatingReservation_thenStatusCodeIs400\", () =>  {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenCarpoolForTransport_whenCreatingReservation_thenErrorIsNOT_AVAILABLE\", () => {\r",
+													"    pm.expect(responseJson.message).to.eql(\"NOT AVAILABLE\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"transportType\": \"CarpOoL\",\r\n    \"guests\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{tripForExceptions}}:reserve",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{tripForExceptions}}:reserve"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "By self",
+							"item": [
+								{
+									"name": "Reservation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"pm.collectionVariables.set(\"reservationInvoice\", responseJson.invoice.invoiceID);\r",
+													"\r",
+													"pm.test(\"givenTransportBySelf_whenCreatingReservation_thenStatusCodeIs201\", () =>  {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenTransportBySelf_whenCreatingReservation_thenTransportCostOfZeroIsAddedToInvoice\", () => {\r",
+													"    pm.expect(responseJson.invoice.items.TRANSPORT).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.invoice.items.TRANSPORT).to.eql(\"0.00\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"transportType\": \"NoNe\",\r\n    \"guests\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{selfTrip}}:reserve",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{selfTrip}}:reserve"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Reservation Checkout",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 86.24\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{reservationInvoice}}:pay",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{reservationInvoice}}:pay"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Invalid",
+							"item": [
+								{
+									"name": "Reservation wrong transport",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenInvalidTransportName_whenCreatingReservation_thenStatusCodeIs404\", () =>  {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvalidTransportName_whenCreatingReservation_thenErrorIsTRANSPORT_TYPE_INVALID\", () => {\r",
+													"    pm.expect(responseJson.message).to.eql(\"TRANSPORT_TYPE_INVALID\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"transportType\": \"aaBBcD\",\r\n    \"guests\": []\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{tripForExceptions}}:reserve",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{tripForExceptions}}:reserve"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Story 5",
+					"item": [
+						{
+							"name": "Preparation",
+							"item": [
+								{
+									"name": "Trip seats checker",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const firstTripAvailabilityBefore = parseInt(pm.collectionVariables.get(\"firstTripAvailability\"));\r",
+													"const firstTripAvailabilityNow = parseInt(pm.response.json()[0].availableSeats);\r",
+													"pm.collectionVariables.set(\"firstTripSeatsTaken\", firstTripAvailabilityBefore - firstTripAvailabilityNow);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "{{startDate}}"
+												},
+												{
+													"key": "endDate",
+													"value": "{{endDate}}"
+												},
+												{
+													"key": "priceLimit",
+													"value": "55"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Block trip as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:block",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:block"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "List hostings",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Hosting invalid trip id",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenTripDoesNotExist_whenSearchingHosting_thenStatusCodeIs404\", () => {\r",
+															"    pm.expect(pm.response.code).to.eql(404);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenTripDoesNotExist_whenSearchingHosting_thenErrorMessageIsTRIP_NOT_FOUND\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"TRIP_NOT_FOUND\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{anyInvalidUUID}}/hosts",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{anyInvalidUUID}}",
+														"hosts"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Hosting search",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"whenSearchingHosting_thenStatusCodeIs200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"whenSearchingHostings_thenListIsNotEmpty\", () => {\r",
+													"    pm.expect(responseJson).to.not.be.empty;\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"firstHosting\", responseJson[0].hostingID);\r",
+													"pm.collectionVariables.set(\"firstHostingAvailability\", responseJson[0].availableCapacity);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}/hosts",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}",
+												"hosts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Book hosting",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Book hosting as: missing token",
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{firstTrip}}/hosts/{{firstHosting}}:book",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{firstTrip}}",
+														"hosts",
+														"{{firstHosting}}:book"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Book hosting as: customer",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenCustomerToken_whenBookingHosting_thenStatusCodeIs403\", () => {\r",
+															"    pm.expect(pm.response.code).to.eql(403);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenCustomerToken_whenBookingHosting_thenErrorMessageIsUSER_ACCESS_DENIED\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"USER_ACCESS_DENIED\");\r",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{firstTrip}}/hosts/{{firstHosting}}:book",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{firstTrip}}",
+														"hosts",
+														"{{firstHosting}}:book"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Book hosting from invalid trip as: organizer",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenInvalidTripID_whenBookingHosting_thenStatusCodeIs404\", () => {\r",
+															"    pm.expect(pm.response.code).to.eql(404);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalidTripID_whenBookingHosting_thenErrorMessageIsTRIP_NOT_FOUND\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"TRIP_NOT_FOUND\");\r",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{anyInvalidUUID}}/hosts/{{firstHosting}}:book",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{anyInvalidUUID}}",
+														"hosts",
+														"{{firstHosting}}:book"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Book invalid hosting as: organizer",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"givenInvalidHostingID_whenBookingHosting_thenStatusCodeIs404\", () => {\r",
+															"    pm.expect(pm.response.code).to.eql(404);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalidHostingID_whenBookingHosting_thenErrorMessageIsHOSTING_NOT_FOUND\", () => {\r",
+															"    const responseJson = pm.response.json();\r",
+															"    pm.expect(responseJson.message).to.eql(\"HOSTING_NOT_FOUND\");\r",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{firstTrip}}/hosts/0:book",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{firstTrip}}",
+														"hosts",
+														"0:book"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Book hosting as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"whenBookingHosting_thenStatusCodeIs200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}/hosts/{{firstHosting}}:book",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}",
+												"hosts",
+												"{{firstHosting}}:book"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Verifications",
+							"item": [
+								{
+									"name": "Book hosting again as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"givenTripAlreadyHasHosting_whenBookingHosting_thenStatusCodeIs400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenTripAlreadyHasHosting_whenBookingHosting_thenErrorMessageIsEXISTING_HOSTING_RESERVATION\", () => {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson.message).to.eql(\"EXISTING_HOSTING_RESERVATION\");\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}/hosts/{{firstHosting}}:book",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}",
+												"hosts",
+												"{{firstHosting}}:book"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invoice updated",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"const paymentMade = pm.collectionVariables.get(\"checkout_payment\");\r",
+													"\r",
+													"pm.test(\"givenHostingIsBooked_whenGettingInvoiceDetails_thenHostingIsNowAnItemOfInvoice\", () => {\r",
+													"    pm.expect(responseJson.items.HOSTING).to.not.be.undefined;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{firstInvoice}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{firstInvoice}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Hosting updated",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const firstHosting = pm.collectionVariables.get(\"firstHosting\");\r",
+													"const responseJson = pm.response.json();\r",
+													"const selectedHosting = responseJson.filter((hosting) => hosting.hostingID === firstHosting)[0];\r",
+													"\r",
+													"\r",
+													"const previousAvailability = parseInt(pm.collectionVariables.get(\"firstHostingAvailability\"));\r",
+													"const firstTripSeatsTaken = parseInt(pm.collectionVariables.get(\"firstTripSeatsTaken\"));\r",
+													"\r",
+													"pm.test(\"givenHostingIsNowBooked_whenSearchingHosting_thenHostingAvailabilityHasBeenReduced\", () => {\r",
+													"    if (previousAvailability == firstTripSeatsTaken) {\r",
+													"        pm.expect(selectedHosting).to.be.undefined;\r",
+													"    } else {\r",
+													"        pm.expect(selectedHosting.availableCapacity).to.eql(previousAvailability - firstTripSeatsTaken);\r",
+													"    }\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}/hosts",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}",
+												"hosts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Story 6",
+					"item": [
+						{
+							"name": "Invalid",
+							"item": [
+								{
+									"name": "Block invalid trip as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"givenInvalidTripID_whenBlockingTrip_thenStatusCodeIs404\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvalidTripID_whenBlockingTrip_thenErrorMessageIsTRIP_NOT_FOUND\", () => {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson.message).to.eql(\"TRIP_NOT_FOUND\");\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{anyInvalidUUID}}:block",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{anyInvalidUUID}}:block"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Block invalid trip as: missing token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:block",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:block"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Block invalid trip as: customer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"givenCustomerToken_whenBlockingTrip_thenStatusCodeIs403\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenCustomerToken_whenBlockingTrip_thenErrorMessageIsUSER_ACCESS_DENIED\", () => {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson.message).to.eql(\"USER_ACCESS_DENIED\");\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:block",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:block"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Block trip as: organizer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{trekulURL}}/trips/{{firstTrip}}:block",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"trips",
+										"{{firstTrip}}:block"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Story 7",
+					"item": [
+						{
+							"name": "Invoice Confirmation Code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();",
+											"",
+											"pm.test(\"whenGetConfirmationCode_thenStatusCodeIs200\", () => {",
+											"    pm.expect(pm.response.code).to.eql(200);",
+											"});",
+											"",
+											"pm.test(\"whenGetConfirmationCode_thenResponseContainsConfirmationCode\", () => {",
+											"    pm.expect(responseJson).to.not.be.empty;",
+											"    pm.expect(responseJson.confirmationCode).not.NaN;",
+											"});",
+											"",
+											"pm.collectionVariables.set(\"confirmationCode\", responseJson.confirmationCode);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{firstInvoice}}/code",
+									"host": [
+										"{{trekulURL}}"
+									],
+									"path": [
+										"users",
+										"{{ownerUserID}}",
+										"invoices",
+										"{{firstInvoice}}",
+										"code"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Story 8",
+					"item": [
+						{
+							"name": "Invalid",
+							"item": [
+								{
+									"name": "Verifying without permission",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenUserWithInvalidPermission_whenValidatingCode_thenStatusCodeIs403\", () =>  {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenUserWithInvalidPermission_whenValidatingCode_thenErrorIsUSER_ACCESS_DENIED\", () => {\r",
+													"    pm.expect(responseJson.message).to.eql(\"USER_ACCESS_DENIED\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:validate?code={{confirmationCode}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:validate"
+											],
+											"query": [
+												{
+													"key": "code",
+													"value": "{{confirmationCode}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Verifying Invalid TripID as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenInvalidTripID_whenValidatingCode_thenStatusCodeIs404\", () =>  {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvalidTripID_whenValidatingCode_thenErrorIsTRIP_NOT_FOUND\", () => {\r",
+													"    pm.expect(responseJson.message).to.eql(\"TRIP_NOT_FOUND\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{anyInvalidUUID}}:validate?code={{confirmationCode}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{anyInvalidUUID}}:validate"
+											],
+											"query": [
+												{
+													"key": "code",
+													"value": "{{confirmationCode}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Verifying Invalid Code as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenInvalidCode_whenValidatingCode_thenStatusCodeIs404\", () =>  {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvalidCode_whenValidatingCode_thenErrorMessageIsRelatedToConfirmationCodeBeingInvalid\", () => {\r",
+													"    pm.expect(responseJson.message).to.eql(\"CONFIRMATION_CODE_NOT_FOUND\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:validate?code=invalidCode",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:validate"
+											],
+											"query": [
+												{
+													"key": "code",
+													"value": "invalidCode"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Verifying Not Paid Invoice as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenInvoiceNotPaid_whenValidatingCode_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvoiceNotPaid_whenValidatingCode_thenMessageIsTripNotPaid\", () => {\r",
+													"    pm.expect(responseJson.message).to.eql(\"The trip has not been paid by the user\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenInvoiceNotPaid_whenValidatingCode_thenCannotBoard\", () => {\r",
+													"    pm.expect(responseJson.canBoard).to.eql(false);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:validate?code={{confirmationCode}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:validate"
+											],
+											"query": [
+												{
+													"key": "code",
+													"value": "{{confirmationCode}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Preparation",
+							"item": [
+								{
+									"name": "Get remaining amount invoice",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"pm.collectionVariables.set(\"remainingAmountToPay\", responseJson.balanceToPay);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{firstInvoice}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{firstInvoice}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Pay invoice for trip",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": {{remainingAmountToPay}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{firstInvoice}}:pay",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{firstInvoice}}:pay"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Verifications",
+							"item": [
+								{
+									"name": "Verifying Paid Invoice as: organizer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenPaidInvoice_whenValidatingCode_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenPaidInvoice_whenValidatingCode_thenMessageIsConfirmationCodeValid\", () => {\r",
+													"    pm.expect(responseJson.message).to.eql(\"The confirmation code is valid\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenPaidInvoiceWithNoTransport_whenValidatingCode_thenCannotBoard\", () => {\r",
+													"    pm.expect(responseJson.canBoard).to.eql(false);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{firstTrip}}:validate?code={{confirmationCode}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{firstTrip}}:validate"
+											],
+											"query": [
+												{
+													"key": "code",
+													"value": "{{confirmationCode}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Story Surprise",
+					"item": [
+						{
+							"name": "Preparation",
+							"item": [
+								{
+									"name": "Group Trip Search",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set(\"groupTrip\", pm.response.json()[0].id);\r",
+													"pm.collectionVariables.set(\"groupTripAvailability\", pm.response.json()[0].availableSeats);\r",
+													"pm.collectionVariables.set(\"groupTripPrice\", pm.response.json()[0].price);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "07cd3bc4-c500-4443-955b-fefd84ab665f",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{trekulURL}}/trips?startDate={{startDate}}&endDate={{endDate}}&priceLimit=55",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "{{startDate}}"
+												},
+												{
+													"key": "endDate",
+													"value": "{{endDate}}"
+												},
+												{
+													"key": "priceLimit",
+													"value": "55"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Group reservation",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Group reservation missing elements",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"let requiredElementsInGuest = {\r",
+															"    \"firstname\": \"guest\",\r",
+															"    \"lastname\": \"one\",\r",
+															"    \"idul\": \"guest_idul\",\r",
+															"    \"email\": \"guest_email\"\r",
+															"}\r",
+															"\r",
+															"let elements = pm.collectionVariables.get(\"guest_elements\");\r",
+															"\r",
+															"if(!elements || elements.length == 0) {\r",
+															"    elements = Object.keys(requiredElementsInGuest);\r",
+															"}\r",
+															"\r",
+															"const currentElement = elements.shift();\r",
+															"pm.variables.set(\"missing_element\", currentElement);\r",
+															"pm.collectionVariables.set(\"guest_elements\", elements);\r",
+															"\r",
+															"delete requiredElementsInGuest[currentElement];\r",
+															"\r",
+															"const reservationRequest = {\r",
+															"    \"transportType\": \"NONE\",\r",
+															"    \"guests\": [requiredElementsInGuest]\r",
+															"}\r",
+															"\r",
+															"pm.request.body.raw = JSON.stringify(reservationRequest);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const missingElement = pm.variables.get(\"missing_element\");\r",
+															"const elements = pm.collectionVariables.get(\"reservation_elements\");\r",
+															"\r",
+															"pm.test(`givenMissingElement:${missingElement}_whenCreatingReservation_thenStatusCodeIs400`, () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"if (elements && elements.length > 0){\r",
+															"    pm.execution.setNextRequest(pm.info.requestId);\r",
+															"}"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{firstTrip}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{firstTrip}}:reserve"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Group reservation too big",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const guestTemplate = {\r",
+															"    \"firstname\": \"guest_\",\r",
+															"    \"lastname\": \"lastname_\",\r",
+															"    \"idul\": \"guest_idul_\",\r",
+															"    \"email\": \"guest_email@example.com\"\r",
+															"}\r",
+															"const guestList = [];\r",
+															"\r",
+															"let groupMaxSize = parseInt(pm.collectionVariables.get(\"groupMaxSize\"));\r",
+															"\r",
+															"for (let i = 0; i < groupMaxSize; i++) {\r",
+															"    guestList.push({\r",
+															"        \"firstname\": guestTemplate.firstname + i,\r",
+															"        \"lastname\": guestTemplate.lastname + i,\r",
+															"        \"idul\": guestTemplate.idul + i,\r",
+															"        \"email\": guestTemplate.email\r",
+															"    });\r",
+															"}\r",
+															"\r",
+															"const reservationRequest = {\r",
+															"    \"transportType\": \"NONE\",\r",
+															"    \"guests\": guestList\r",
+															"}\r",
+															"\r",
+															"pm.request.body.raw = JSON.stringify(reservationRequest);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const responseJson = pm.response.json();\r",
+															"\r",
+															"pm.test(\"givenGroupSizeTooBig_whenCreatingReservation_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenGroupSizeTooBig_whenCreatingReservation_thenErrorMessageIsGROUP_TOO_BIG\", () => {\r",
+															"    pm.expect(responseJson.message).to.eql(\"GROUP_TOO_BIG\");\r",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{groupTrip}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{groupTrip}}:reserve"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Group reservation invalid email",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const responseJson = pm.response.json();\r",
+															"\r",
+															"pm.test(\"givenGroupSizeTooBig_whenCreatingReservation_thenStatusCodeIs400\", () =>  {\r",
+															"    pm.response.to.have.status(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenGroupSizeTooBig_whenCreatingReservation_thenErrorDetailsIsInvalidEmail\", () => {\r",
+															"    pm.expect(responseJson.details).to.eql(\"Invalid email\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n  \"transportType\": \"organiZED_bUs\",\r\n  \"stop\": \"VAChon\",\r\n  \"guests\": [\r\n    {\r\n        \"firstname\": \"guest\",\r\n        \"lastname\": \"one\",\r\n        \"idul\": \"{{guest_one_idul}}\",\r\n        \"email\": \"not_an_email\"\r\n    }\r\n  ]\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{groupTrip}}:reserve",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{groupTrip}}:reserve"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Group reservation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenGroupSizeOfTwo_whenCreatingReservation_thenStatusCodeIs201\", () =>  {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenGroupSizeOfTwo_whenCreatingReservation_thenReservationPriceIsDoubled\", () => {\r",
+													"    pm.expect(responseJson.invoice.items.RESERVATION).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.invoice.items.RESERVATION).to.eql(\"150.00\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenGroupSizeOfTwo_whenCreatingReservation_thenGroupListContainsTheGuest\", () => {\r",
+													"    pm.expect(responseJson.group).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.group.guests).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.group.guests.length).to.eql(1);\r",
+													"    const guest = responseJson.group.guests[0];\r",
+													"    pm.expect(guest.id).to.eql(pm.collectionVariables.get(\"guest_one_idul\"));\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"groupReservationInvoice\", responseJson.invoice.invoiceID);\r",
+													"pm.collectionVariables.set(\"groupCheckoutPayment\", responseJson.minimumToPay);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"transportType\": \"organiZED_bUs\",\r\n  \"stop\": \"VAChon\",\r\n  \"guests\": [\r\n    {\r\n        \"firstname\": \"guest\",\r\n        \"lastname\": \"one\",\r\n        \"idul\": \"{{guest_one_idul}}\",\r\n        \"email\": \"{{email}}\"\r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{groupTrip}}:reserve",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{groupTrip}}:reserve"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Confirmation",
+							"item": [
+								{
+									"name": "Group Reservation Checkout",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"givenGroupReservation_whenCheckingOut_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": {{groupCheckoutPayment}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{groupReservationInvoice}}:pay",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{groupReservationInvoice}}:pay"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Data of trip confirmed",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"const groupTrip = pm.collectionVariables.get(\"groupTrip\");\r",
+													"\r",
+													"for (const trip of responseJson) {\r",
+													"    if (trip.tripId === groupTrip) {\r",
+													"        \r",
+													"        const groupTripResult = JSON.stringify(trip);\r",
+													"        pm.collectionVariables.set(\"groupTripResult\", groupTripResult);\r",
+													"        break;\r",
+													"    }\r",
+													"}"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/profile/trips?status=CONFIRMED",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"profile",
+												"trips"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "CONFIRMED"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Guest access",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Trip access without 2FA as: anonym",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const responseJson = pm.response.json();\r",
+															"\r",
+															"pm.test(\"givenInvalid2FACode_whenGettingTrip_thenStatusCodeIs401\", () => {\r",
+															"    pm.expect(pm.response.code).to.eql(401);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenInvalid2FACode_whenGettingTrip_thenErrorMessageIsUSER_AUTH_EXPIRED\", () => {\r",
+															"    pm.expect(responseJson.message).to.eql(\"USER_AUTH_EXPIRED\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/trips/{{groupTrip}}:search",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"trips",
+														"{{groupTrip}}:search"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "2FA activation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"givenGuest_whenGettingTrip_thenStatusCodeIs204\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(204);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{groupTrip}}/guests/{{guest_one_idul}}/2FA",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{groupTrip}}",
+												"guests",
+												"{{guest_one_idul}}",
+												"2FA"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Phase 2",
+			"item": [
+				{
+					"name": "Story Surprise",
+					"item": [
+						{
+							"name": "Guest access",
+							"item": [
+								{
+									"name": "Trip access as: guest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"const tripInfoFromCustomer = pm.collectionVariables.get(\"groupTripResult\");\r",
+													"\r",
+													"\r",
+													"pm.test(\"givenGuest_whenGettingTrip_thenStatusCodeIs200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenGuest_whenGettingTrip_thenInvoiceInformationAreDifferentThanCustomerExceptInvoiceID\", () => {\r",
+													"    const tripInfoOnlyInvoice = JSON.parse(tripInfoFromCustomer).invoice;\r",
+													"    pm.expect(tripInfoOnlyInvoice).to.not.eql(responseJson.invoice);\r",
+													"    pm.expect(tripInfoOnlyInvoice.invoiceID).to.eql(responseJson.invoice.invoiceID);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenGuest_whenGettingTrip_thenInformationsOtherThanInvoiceAreSameAsCustomer\", () => {\r",
+													"    const customerTripInfoWithoutInvoice = JSON.parse(tripInfoFromCustomer);\r",
+													"    delete customerTripInfoWithoutInvoice[\"invoice\"];\r",
+													"\r",
+													"    const guestTripInfoWithoutInvoice = pm.response.json();\r",
+													"    delete guestTripInfoWithoutInvoice[\"invoice\"];\r",
+													"\r",
+													"    pm.expect(customerTripInfoWithoutInvoice).to.eql(guestTripInfoWithoutInvoice);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/trips/{{groupTrip}}:search?2FA={{guest2FA}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"trips",
+												"{{groupTrip}}:search"
+											],
+											"query": [
+												{
+													"key": "2FA",
+													"value": "{{guest2FA}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invoice access as: guest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenGuest_whenGettingInvoice_thenStatusCodeIs200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenGuest_whenGettingInvoice_thenInvoiceHasReservationItem\", () => {\r",
+													"    pm.expect(responseJson.items.RESERVATION).to.not.be.undefined;\r",
+													"    pm.expect(responseJson.items.RESERVATION).to.not.eql(\"0.00\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenGuestWithoutHavingPaid_whenGettingInvoice_thenPaymentsIsStillEmpy\", () => {\r",
+													"    pm.expect(responseJson.payments).to.be.empty;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{groupReservationInvoice}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{groupReservationInvoice}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Guest payment",
+							"item": [
+								{
+									"name": "Invalid",
+									"item": [
+										{
+											"name": "Payment too low as: guest",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const responseJson = pm.response.json();\r",
+															"\r",
+															"pm.test(\"givenGuestWithPaymentBelowMinimum_whenPayingInvoice_thenStatusCodeIs400\", () => {\r",
+															"    pm.expect(pm.response.code).to.eql(400);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"givenGuestWithPaymentBelowMinimum_whenPayingInvoice_thenErrorMessageIsPAYMENT_TOO_LOW\", () => {\r",
+															"    pm.expect(responseJson.message).to.eql(\"PAYMENT_TOO_LOW\");\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": 10\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{groupReservationInvoice}}:pay?2FA={{guest2FA}}",
+													"host": [
+														"{{trekulURL}}"
+													],
+													"path": [
+														"users",
+														"{{ownerUserID}}",
+														"invoices",
+														"{{groupReservationInvoice}}:pay"
+													],
+													"query": [
+														{
+															"key": "2FA",
+															"value": "{{guest2FA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Payment as: guest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"givenGuest_whenPayingInvoice_thenStatusCodeIs200\", () =>  {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cardNumber\": \"1234\",\r\n    \"expirationDate\": \"1225\",\r\n    \"cardHolderName\": \"Louis\",\r\n    \"ccv\": 124,\r\n    \"payment\": {{checkout_payment}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{groupReservationInvoice}}:pay?2FA={{guest2FA}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{groupReservationInvoice}}:pay"
+											],
+											"query": [
+												{
+													"key": "2FA",
+													"value": "{{guest2FA}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invoice of customer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseJson = pm.response.json();\r",
+													"\r",
+													"pm.test(\"givenGuestDidFirstPayment_whenGettingInvoiceDetails_thenCreditHasBeenAdded\", () => {\r",
+													"    pm.expect(responseJson.items.CREDIT).to.not.be.undefined;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"givenGuestDidFirstPayment_whenGettingInvoiceDetails_thenCreditIsNegativeOfNormalReservation\", () => {\r",
+													"    pm.expect(responseJson.items.CREDIT).to.eql(\"-75.00\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{trekulURL}}/users/{{ownerUserID}}/invoices/{{groupReservationInvoice}}",
+											"host": [
+												"{{trekulURL}}"
+											],
+											"path": [
+												"users",
+												"{{ownerUserID}}",
+												"invoices",
+												"{{groupReservationInvoice}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"let token = undefined;\r",
+					"let requestName = pm.info.requestName;\r",
+					"const roleIndex = requestName.indexOf(\"as: \");\r",
+					"\r",
+					"if (roleIndex === -1) {\r",
+					"    token = pm.collectionVariables.get(\"userToken\");\r",
+					"} else {\r",
+					"    const role = requestName.substring(roleIndex + 4);\r",
+					"    const roleIndicator = {\r",
+					"        \"organizer\": pm.collectionVariables.get(\"organizerToken\"),\r",
+					"        \"customer\": pm.collectionVariables.get(\"userToken\"),\r",
+					"        \"guest\": pm.collectionVariables.get(\"guest2FA\"),\r",
+					"    };\r",
+					"\r",
+					"    token = roleIndicator[role];\r",
+					"}\r",
+					"\r",
+					"if (token) {\r",
+					"    pm.request.headers.add({\r",
+					"        key: \"Authorization\",\r",
+					"        value: token\r",
+					"    });\r",
+					"}\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"let requestName = pm.info.requestName;\r",
+					"const withoutTokenIndex = requestName.indexOf(\"as: missing token\");\r",
+					"\r",
+					"if (withoutTokenIndex !== -1) {\r",
+					"    requestName = pm.request.method + requestName.substring(0, withoutTokenIndex);\r",
+					"    \r",
+					"    pm.test(`givenNoToken_when${requestName}_thenStatusCodeIs401`, () =>  {\r",
+					"        pm.response.to.have.status(401);\r",
+					"    });\r",
+					"\r",
+					"    pm.test(`givenNoToken_when${requestName}_thenErrorMessageIsUSER_AUTH_EXPIRED`, () => {\r",
+					"        const responseJson = pm.response.json();\r",
+					"        pm.expect(responseJson.message).to.eql(\"USER_AUTH_EXPIRED\");\r",
+					"    })\r",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "password",
+			"value": "123456789!A",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "trekul.eq6@example.com"
+		},
+		{
+			"key": "wrong_password",
+			"value": ""
+		},
+		{
+			"key": "wrong_passwords",
+			"value": ""
+		},
+		{
+			"key": "wrong_age",
+			"value": ""
+		},
+		{
+			"key": "ages",
+			"value": ""
+		},
+		{
+			"key": "wrong_ages",
+			"value": ""
+		},
+		{
+			"key": "currentToken",
+			"value": ""
+		},
+		{
+			"key": "user_age",
+			"value": "18",
+			"type": "string"
+		},
+		{
+			"key": "trekulURL",
+			"value": "http://localhost:8080/api/trekul",
+			"type": "string"
+		},
+		{
+			"key": "startDate",
+			"value": "2024-12-10",
+			"type": "string"
+		},
+		{
+			"key": "endDate",
+			"value": "2024-12-12",
+			"type": "string"
+		},
+		{
+			"key": "region",
+			"value": ""
+		},
+		{
+			"key": "regions",
+			"value": ""
+		},
+		{
+			"key": "firstTrip",
+			"value": ""
+		},
+		{
+			"key": "firstTripAvailability",
+			"value": ""
+		},
+		{
+			"key": "firstTripPrice",
+			"value": ""
+		},
+		{
+			"key": "wrong_payment",
+			"value": ""
+		},
+		{
+			"key": "wrong_payments",
+			"value": ""
+		},
+		{
+			"key": "wrong_payment_type",
+			"value": ""
+		},
+		{
+			"key": "wrong_payments_types",
+			"value": ""
+		},
+		{
+			"key": "checkout_elements",
+			"value": ""
+		},
+		{
+			"key": "reservation_elements",
+			"value": ""
+		},
+		{
+			"key": "registrer_elements",
+			"value": ""
+		},
+		{
+			"key": "organized_bus_cost",
+			"value": ""
+		},
+		{
+			"key": "organized_bus_seats",
+			"value": ""
+		},
+		{
+			"key": "checkout_payment",
+			"value": "86.24",
+			"type": "string"
+		},
+		{
+			"key": "firstInvoice",
+			"value": ""
+		},
+		{
+			"key": "fullTrip",
+			"value": ""
+		},
+		{
+			"key": "fullOrganizedBus",
+			"value": ""
+		},
+		{
+			"key": "userToken",
+			"value": ""
+		},
+		{
+			"key": "organizerToken",
+			"value": ""
+		},
+		{
+			"key": "firstHosting",
+			"value": ""
+		},
+		{
+			"key": "firstHostingAvailability",
+			"value": ""
+		},
+		{
+			"key": "reservationInvoice",
+			"value": ""
+		},
+		{
+			"key": "groupTrip",
+			"value": ""
+		},
+		{
+			"key": "groupTripAvailability",
+			"value": ""
+		},
+		{
+			"key": "groupTripPrice",
+			"value": ""
+		},
+		{
+			"key": "guest_elements",
+			"value": ""
+		},
+		{
+			"key": "guest_one_idul",
+			"value": "gu1",
+			"type": "string"
+		},
+		{
+			"key": "groupReservationInvoice",
+			"value": ""
+		},
+		{
+			"key": "groupCheckoutPayment",
+			"value": ""
+		},
+		{
+			"key": "groupTripResult",
+			"value": ""
+		},
+		{
+			"key": "groupMaxSize",
+			"value": "13",
+			"type": "string"
+		},
+		{
+			"key": "confirmationCode",
+			"value": ""
+		},
+		{
+			"key": "remainingAmountToPay",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tripForExceptions",
+			"value": ""
+		},
+		{
+			"key": "busTrip",
+			"value": ""
+		},
+		{
+			"key": "busTripPrice",
+			"value": ""
+		},
+		{
+			"key": "selfTrip",
+			"value": ""
+		},
+		{
+			"key": "firstTripSeatsTaken",
+			"value": ""
+		},
+		{
+			"key": "guest2FA",
+			"value": "d6c78b63-426a-4a4d-b7f5-03655e5c2751",
+			"type": "string"
+		},
+		{
+			"key": "currentTripStatus",
+			"value": ""
+		},
+		{
+			"key": "tripStatus",
+			"value": ""
+		},
+		{
+			"key": "ownerUserID",
+			"value": "story1",
+			"type": "string"
+		},
+		{
+			"key": "anyInvalidUUID",
+			"value": "00000000-0000-0000-0000-000000000000",
+			"type": "string"
+		}
+	]
+}

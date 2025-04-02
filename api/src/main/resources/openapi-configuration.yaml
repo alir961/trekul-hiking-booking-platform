@@ -1,0 +1,11 @@
+prettyPrint: true
+openAPI:
+  info:
+    version: '1.0'
+    title: TrekUL API
+    description: TrekUL API documentation
+  components:
+    securitySchemes:
+      BearerAuth:
+        type: http
+        scheme: bearer
