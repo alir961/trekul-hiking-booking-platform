@@ -12,6 +12,10 @@ on:
       - synchronize
       - ready_for_review
 
+permissions:
+  contents: read
+  checks: write
+
 jobs:
   # Job de setup initial (Checkout et installation JDK)
   setup:
