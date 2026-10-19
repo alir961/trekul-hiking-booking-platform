@@ -1,38 +1,42 @@
-# TrekUl
+# TrekUL — Hiking Trip Booking Platform (Java · DDD · TDD)
 
-## Maven commands
-Tests:
-- `mvn test`
-- `mvn integration-test`
-- `mvn verify`
-- Coverage: `mvn test --fail-at-end jacoco:prepare-agent verify jacoco:report-aggregate`
+A REST API for booking complete hiking trips in Québec: departure transport, accommodation, hiking activities and the return trip. It was built with a strict **layered / Domain-Driven Design** architecture and **test-driven development**.
 
-Checkstyle & formatting:
-- `mvn spotless:apply`
-- `mvn checkstyle:check`
+> Team project — software architecture course (GLO-4003), Université Laval.
 
+## Highlights
 
-## Checkstyle & formatting
-- Important rules can be found in the folder `checkstyle`
-  - Mostly based from Google for Checkstyle
-- Also using spotless with cleanthat for auto formatting.
-  - Rules can be found in the pom.xml
-  - Mostly based from [SafeAndConsensual](https://github.com/solven-eu/cleanthat/blob/master/java/src/main/java/eu/solven/cleanthat/engine/java/refactorer/mutators/composite/SafeAndConsensualMutators.java)
+- **Clean layered architecture** as separate Maven modules, with dependencies pointing inward:
+  `api` (JAX-RS resources, DTOs, exception mappers) → `service` (use cases) → `domain` (trips, travelers, transport, hiking, payment, filters) ← `infrastructure` (persistence, configuration, external data)
+- **150+ test classes**: JUnit 5, Mockito and AssertJ for unit tests, REST-assured for API integration tests
+- **Quality gates**: JaCoCo coverage, Checkstyle (Google-based rules) and Spotless/Cleanthat formatting
+- **API documentation** generated from Swagger annotations at build time
+- **Real open-data ingestion**: parses and validates the Québec Ministry of Tourism accommodation dataset (300K+ records, XML against the official XSD) plus regional trek data
 
-## API Documentation
-The API documentation is automatically generated during the compilation of the project. To access the documentation, follow these steps:
+## Tech stack
 
-- Compile the Project
-  - Ensure the project is successfully compiled.
-- Locate the Documentation
-  - Find the `index.html` file in the `doc` folder at the root of the project.
-- Open in Browser
-  - Open the index.html file in your web browser to view the API documentation.
+Java · JAX-RS (Jersey on Jetty) · Jackson · Maven (multi-module) · JUnit 5 · Mockito · REST-assured · JaCoCo · Swagger
 
-Make sure the project is running to access the latest documentation updates.
+## Run
 
-## Project Setup
-### Adding the Hebergement XML File
+Requirements: JDK 21, Maven.
 
-To ensure proper functionality, the file `hebergement.xml` respecting [this Schema](https://donnees.tourisme.gouv.qc.ca/donnees/mto_do_schema_xml.xsd) must be placed at the root of the project directory.
-This file is essential for parsing and saving data related to the hosting within the application.
+```bash
+unzip Hebergement.zip            # Ministry of Tourism accommodation dataset
+mvn verify                       # tests, coverage, checkstyle
+./start.sh                       # or start.bat on Windows
+```
+
+Set your own SMTP credentials in `config.trek-ul.yaml` before sending e-mail. The value committed here is a placeholder.
+
+### Useful commands
+
+| Command | Purpose |
+|---|---|
+| `mvn test` | Unit tests |
+| `mvn verify` | Unit and integration tests |
+| `mvn test --fail-at-end jacoco:prepare-agent verify jacoco:report-aggregate` | Coverage report |
+| `mvn spotless:apply` | Auto-format |
+| `mvn checkstyle:check` | Style check |
+
+A Postman collection is included: `TrekUl-eq6.postman_collection.json`.
