@@ -304,19 +304,20 @@
                 </executions>
             </plugin>
 
-            <!-- generate swagger.json plugin -->
+            <!-- generate swagger.json plugin: only the api module (see api/pom.xml) has the resources to scan -->
             <plugin>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-maven-plugin-jakarta</artifactId>
                 <version>2.2.23</version>
                 <configuration>
+                    <skip>true</skip>
                     <outputFileName>swagger</outputFileName>
-                    <outputPath>api/src/main/resources</outputPath>
+                    <outputPath>${project.build.outputDirectory}</outputPath>
                     <outputFormat>JSON</outputFormat>
                     <resourcePackages>
                         <package>ca.ulaval.glo4003</package>
                     </resourcePackages>
-                    <configurationFilePath>api/src/main/resources/openapi-configuration.yaml</configurationFilePath>
+                    <configurationFilePath>${project.basedir}/src/main/resources/openapi-configuration.yaml</configurationFilePath>
                 </configuration>
                 <executions>
                     <execution>
