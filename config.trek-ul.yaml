@@ -41,4 +41,4 @@ smtp:
   host: smtp.mailgun.org
   port: 587
   username: postmaster@your-domain.example
-  password: ***REMOVED***
+  password: "change-me"
