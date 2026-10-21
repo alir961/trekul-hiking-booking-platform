@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.register;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ca.ulaval.glo4003.traveler.user.credential.UserCredential;
@@ -24,5 +25,7 @@ public class UserCredentialFactoryTest {
         this.userCredentialFactory.create(ANY_EMAIL, ANY_PASSWORD);
 
     assertEquals(ANY_USER_CREDENTIAL, createdUserCredential);
+    assertEquals(ANY_EMAIL, createdUserCredential.getEmailAddress());
+    assertDoesNotThrow(() -> createdUserCredential.validatePassword(ANY_PASSWORD));
   }
 }
