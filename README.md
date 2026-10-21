@@ -67,3 +67,7 @@ Set your own SMTP credentials in `config.trek-ul.yaml` to send e-mail (confirmat
 | `mvn test --fail-at-end jacoco:prepare-agent verify jacoco:report-aggregate` | Coverage report |
 | `mvn spotless:apply` | Auto-format |
 | `mvn checkstyle:check` | Style check |
+
+## License
+
+[MIT](LICENSE)
